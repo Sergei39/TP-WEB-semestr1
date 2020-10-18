@@ -1,14 +1,18 @@
 main > .container {
-  padding: 60px 15px 0;
+  padding: 80px 12px 0;
 }
+
+nav
 
 .footer {
   background-color: #f5f5f5;
 }
 
-.footer > .container {
-  padding-right: 15px;
-  padding-left: 15px;
+footer > .container {
+  padding-right: 12px;
+  padding-left: 0;
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
 
 code {
@@ -16,17 +20,103 @@ code {
 }
 
 .question-box {
-  margin-top: 30px;
-  border: 1px solid grey;
-  border-radius: 10px;
-  padding: 20px;
+  margin-top: 20px;
+  padding: 12px;
 }
 
 .question-img {
-  max-width: 150px;
+  max-width: 120px;
+}
+
+.question-content{
+  padding-left: 36px;
+  padding-right: 36px;
+}
+
+.avatar-img {
 }
 
 .question-title {
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.question-info{
+  margin-top: 16px;
+}
+
+.mainy{
+  margin-top: 20px;
+}
+.head-box{
+  display: flex;
+  flex-direction: column;
+  max-height: 40px;
+  margin-left: 12px;
+}
+.head-nav{
+  display: flex;
+  flex-direction: row;
+  padding-right: 52px;
+}
+.avatar-name{
+  margin-bottom: 0;
+  margin-top: -4px;
+}
+.head-container{
+  display: flex;
+  flex-direction: row;
+}
+.head-link{
+  margin-right: 8px;
+}
+
+.info-box{
+  margin-top: 40px;
+  padding-bottom: 124px;
+}
+
+.navbar-brand{
+  padding-left: 20px;
+  font-size: 24px;
+}
+
+.ques-tag{
+  margin-left: 12px;
+}
+
+.tag{
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 12px;
+}
+
+p{
+  margin: 0 0 0;
+}
+
+li{
+  list-style-type: none;
+  margin-bottom: 4px;
+}
+
+ul{
+  padding-left: 0px;
+}
+
+.members-box{
+  margin-top: 44px;
+}
+
+.tags-container{
+}
+
+.info-right{
+  padding-left: 64px;
+}
+
+.list-group-item{
+  padding: 4px 12px;
+  margin: 0 4px;
 }
