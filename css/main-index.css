@@ -20,7 +20,7 @@ code {
 }
 
 .question-img {
-  max-width: 120px;
+  max-width: 100px;
 }
 
 .question-content{
@@ -45,4 +45,20 @@ code {
 .list-group-item{
   padding: 4px 12px;
   margin: 0 4px;
+}
+
+.page-navigation{
+  margin-top: 32px;
+}
+
+.like-info{
+  margin-top: 12px;
+}
+
+.like-status{
+  margin: auto;
+}
+
+.info-person{
+  margin: auto;
 }
