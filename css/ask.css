@@ -1,0 +1,94 @@
+
+.box-qst {
+  margin-top: 20px;
+  padding: 12px;
+  padding-bottom: 32px;
+}
+
+.info-person-qst {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.person-qst-img {
+  max-width: 130px;
+}
+
+.content-qst{
+  padding-left: 36px;
+}
+
+.tag-qst{
+  margin-left: 12px;
+}
+
+.list-group-item{
+  padding: 4px 12px;
+  margin: 0 4px;
+}
+
+.page-navigation{
+  margin-top: 32px;
+}
+
+.like-info{
+  margin-top: 12px;
+}
+
+.like-status{
+  margin: auto;
+}
+
+.tags-qst {
+  margin-top: 16px;
+}
+
+.info-person-qst{
+  margin: auto;
+}
+
+
+
+
+
+.answers {
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.box-answer {
+  margin-top: 20px;
+  padding: 12px 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.person-answer-img {
+  max-width: 100px;
+}
+
+.content-answer {
+  padding-left: 36px;
+  padding-right: 36px;
+}
+
+.info-answer {
+  margin-top: 16px;
+}
+
+.ques-tag {
+  margin-left: 12px;
+}
+
+.form-check {
+  padding-left: 36px;
+}
+
+.info-person-answer{
+  margin: auto;
+}
+
+.new-answer {
+  padding-left: 0;
+  padding-right: 0;
+}

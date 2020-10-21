@@ -6,12 +6,12 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>Question</title>
+    <title>Login</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/reset.css" rel="stylesheet">
     <link href="../css/sticky-header-navbar.css" rel="stylesheet">
     <link href="../css/right-col.css" rel="stylesheet">
-    <link href="../css/question.css" rel="stylesheet">
+    <link href="../css/login.css" rel="stylesheet">
   </head>
   <body class="d-flex flex-column h-100">
     <header>
@@ -46,33 +46,26 @@
   <main role="main" class="d-flex justify-content-center container">
       <div class="row container d-flex justify-content-between">
         <div class="col-9">
-          <div class="name-page">
-            <h4>New Question</h4>
+          <div class="name-page col-12">
+            <h4>Log in</h4>
           </div>
-            <form class="body-page">
-              <div class="form-group row">
-                <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
-                <div class="col-sm-10">
-                  <input class="form-control" id="inputTitle" placeholder="Title Question">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputText" class="col-sm-2 col-form-label">Text</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" id="inputText" rows="16" placeholder="Text Question"></textarea>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputTag" class="col-sm-2 col-form-label">Title</label>
-                <div class="col-sm-10">
-                  <input class="form-control" id="inputTag" placeholder="Tags">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-2"></div>
-                <button type="submit" class="btn btn-primary mb-2 btn-dark">ASK!</button>
-              </div>
-            </form>
+
+          <form class="col-12">
+            <div class="form-group">
+              <label for="inputEmail1">Email address</label>
+              <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword1">Password</label>
+              <input type="password" class="form-control" id="inputPassword1">
+            </div>
+            <button type="submit" class="btn btn-primary btn-dark">Log in</button>
+            <div class="new-account">
+              <a href="#" class="text-dark">create new account</a>
+            </div>
+          </form>
+
 
         </div>
 
