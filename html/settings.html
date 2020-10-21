@@ -6,12 +6,12 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>Signup</title>
+    <title>Settings</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/reset.css" rel="stylesheet">
     <link href="../css/sticky-header-navbar.css" rel="stylesheet">
     <link href="../css/right-col.css" rel="stylesheet">
-    <link href="../css/signup.css" rel="stylesheet">
+    <link href="../css/settings.css" rel="stylesheet">
   </head>
   <body class="d-flex flex-column h-100">
     <header>
@@ -46,59 +46,51 @@
   <main role="main" class="d-flex justify-content-center container">
       <div class="row container d-flex justify-content-between">
         <div class="col-9 row">
-          <div class="col-4 name-page">
-            <h4>Registration</h4>
+          <div class="col-2 name-page">
+            <h4>Settings:</h4>
+          </div>
+          <div class="col-10 name-person">
+            <h4>Dr. Peopper</h4>
           </div>
 
           <form class="body-page col-12">
             <div class="form-group row">
-              <label for="inputLogin" class="col-sm-3 col-form-label">Login</label>
-              <div class="col-sm-9">
+              <label for="inputLogin" class="col-sm-2 col-form-label">Login</label>
+              <div class="col-sm-10">
                 <input class="form-control" id="inputLogin" placeholder="dr_pepper">
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
-              <div class="col-sm-9">
+              <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
                 <input class="form-control" id="inputEmail" placeholder="drpepper@mail.ru">
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputNickName" class="col-sm-3 col-form-label">NickName</label>
-              <div class="col-sm-9">
+              <label for="inputNickName" class="col-sm-2 col-form-label">NickName</label>
+              <div class="col-sm-10">
                 <input class="form-control" id="inputNickName" placeholder="Dr. Pepper">
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-3 col-form-label">Password</label>
-              <div class="col-sm-9">
-                <input type="password" class="form-control" id="inputPassword">
+              <label for="uploadAvatar" class="col-sm-2 col-form-label">Upload avatar</label>
+              <div class="col-sm-10">
+                <img class="avatar-main-img" src="../img/200.jpeg" alt="">
               </div>
             </div>
-            <div class="form-group row">
-              <label for="inputRepeatPassword" class="col-sm-3 col-form-label">Repeat password</label>
-              <div class="col-sm-9">
-                <input type="repeatPassword" class="form-control" id="inputPassword">
+            <div class="input-group mb-3">
+              <div class="col-sm-2"></div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile02">
+                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose img</label>
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
               </div>
             </div>
-            <div class="form-group row">
-              <label for="uploadAvatar" class="col-sm-3 col-form-label">Upload avatar</label>
-              <div class="col-sm-9">
-                <div class="input-group mb-3">
-                  <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile02">
-                    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose img</label>
-                  </div>
-                  <div class="input-group-append">
-                    <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div class="row">
-              <div class="col-sm-3"></div>
-              <button type="submit" class="btn btn-primary mb-2 btn-dark reg-btn">Registr</button>
+              <div class="col-sm-2"></div>
+              <button type="submit" class="btn btn-primary mb-2 btn-dark">Save</button>
             </div>
           </form>
 
