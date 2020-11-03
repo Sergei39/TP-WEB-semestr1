@@ -1,0 +1,42 @@
+.box-qst {
+  margin-top: 20px;
+  padding: 12px;
+  padding-bottom: 32px;
+}
+
+.person-qst-img {
+  max-width: 130px;
+}
+
+.content-qst{
+  padding-left: 36px;
+}
+
+.tag-qst{
+  margin-left: 12px;
+}
+
+.list-group-item{
+  padding: 4px 12px;
+  margin: 0 4px;
+}
+
+.page-navigation{
+  margin-top: 32px;
+}
+
+.like-info{
+  margin-top: 12px;
+}
+
+.like-status{
+  margin: auto;
+}
+
+.tags-qst {
+  margin-top: 16px;
+}
+
+.info-person-qst{
+  margin: auto;
+}

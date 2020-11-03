@@ -1,0 +1,41 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>{% block title %}Q&A{% endblock %}</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/reset.css" %}" rel="stylesheet">
+    <link href="{% static "css/sticky-header-navbar.css" %}" rel="stylesheet">
+    <link href="{% static "css/right-col.css" %}" rel="stylesheet">
+    {% block extrahead %}{% endblock %}
+  </head>
+  <body class="d-flex flex-column h-100">
+    <header>
+      {% include 'inc/navbar.html' %}
+    </header>
+    <main role="main" class="d-flex justify-content-center container">
+      <div class="row container d-flex justify-content-between">
+        <div class="col-9">
+          {% block content %}{% endblock %}
+        </div>
+
+        <div class="col-3 info-right">
+          {% include 'inc/right_box.html' %}
+        </div>
+
+      </div>
+    </main>
+    <footer class="d-flex container justify-content-center">
+      {% block footer %}{% endblock %}
+    </footer>
+    <script src="{% static "js/jquery.slim.min.js" %}"></script>
+    <script src="{% static "js/popper.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+{% extends 'inc/base.html' %}
+{% load static %}
+
+{% block title %}Ask{% endblock %}
+{% block extrahead %}
+    <link href="{% static "css/ask.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="row box-qst">
+      <div class="col-2 info-person-qst">
+        <img class="person-qst-img" src="../img/200.jpeg" alt="">
+        <div class="d-flex justify-content-center like-info">
+          <img class="btn btn-primary btn-sm btn-light" src="../img/like.png" height="24">
+          <div class="bd-highlight like-status">+2</div>
+          <img class="btn btn-primary btn-sm btn-light" src="../img/dislike.png" height="24">
+        </div>
+      </div>
+
+      <div class="col-10 content-qst">
+        <div class="title-qst">
+          <h4><a href="#" class="text-dark">My best question</a></h4>
+        </div>
+        <div class="text-qst">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.
+        </div>
+        <div class="tags-qst">
+          <p class="float-left">Tags: </p>
+          <p class="float-left tag-qst">
+            <a herf="#">black-jack</a>
+          </p>
+          <p class="float-left tag-qst">
+            <a herf="#">bender</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="answers border-bottom border-top border-dark">
+      {% include 'inc/answer_box.html' %}
+      {% include 'inc/answer_box.html' %}
+    </div>
+
+    <form class="body-page col-12 new-answer">
+      <div class="form-group">
+        <textarea class="form-control border border-dark" id="inputText" rows=4 placeholder="Enter your answer here"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary mb-2 btn-dark">Answer</button>
+    </form>
+{% endblock %}
