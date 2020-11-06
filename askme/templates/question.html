@@ -3,35 +3,48 @@
 
 {% block title %}Question{% endblock %}
 {% block extrahead %}
-    <link href="{% static "css/question.css" %}" rel="stylesheet">
+    <link href="{% static 'css/ask.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <div class="name-page">
-      <h4>New Question</h4>
+    <div class="row box-qst">
+      <div class="col-2 info-person-qst">
+        <img class="person-qst-img" src="{% static 'img/200.jpeg' %}" alt="">
+        <div class="d-flex justify-content-center like-info">
+          <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/like.png' %}" height="24">
+          <div class="bd-highlight like-status">+2</div>
+          <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/dislike.png' %}" height="24">
+        </div>
+      </div>
+
+      <div class="col-10 content-qst">
+        <div class="title-qst">
+          <h4>{{ question.title }}</h4>
+        </div>
+        <div class="text-qst">
+          {{ question.text }}
+        </div>
+        <div class="tags-qst">
+          <p class="float-left">Tags: </p>
+          <p class="float-left tag-qst">
+            <a herf="#">black-jack</a>
+          </p>
+          <p class="float-left tag-qst">
+            <a herf="#">bender</a>
+          </p>
+        </div>
+      </div>
     </div>
-    <form class="body-page">
-      <div class="form-group row">
-        <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="inputTitle" placeholder="Title Question">
-        </div>
+
+    <div class="answers border-bottom border-top border-dark">
+      {% include 'inc/answer_box.html' %}
+      {% include 'inc/answer_box.html' %}
+    </div>
+
+    <form class="body-page col-12 new-answer">
+      <div class="form-group">
+        <textarea class="form-control border border-dark" id="inputText" rows=4 placeholder="Enter your answer here"></textarea>
       </div>
-      <div class="form-group row">
-        <label for="inputText" class="col-sm-2 col-form-label">Text</label>
-        <div class="col-sm-10">
-          <textarea class="form-control" id="inputText" rows="16" placeholder="Text Question"></textarea>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputTag" class="col-sm-2 col-form-label">Title</label>
-        <div class="col-sm-10">
-          <input class="form-control" id="inputTag" placeholder="Tags">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <button type="submit" class="btn btn-primary mb-2 btn-dark">ASK!</button>
-      </div>
+      <button type="submit" class="btn btn-primary mb-2 btn-dark">Answer</button>
     </form>
 {% endblock %}

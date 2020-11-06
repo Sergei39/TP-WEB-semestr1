@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top container bg-dark justify-content-md-between">
   <div class="">
-    <p><a class="navbar-brand" href="#">AskPupkin</a></p>
+    <p><a class="navbar-brand" href="{% url 'index' %}">AskPupkin</a></p>
   </div>
   <div class="">
     <form class="form-inline mt-2 mt-md-0">
@@ -18,8 +18,8 @@
     <div class="head-box">
       <p class="avatar-name text-light">Dr. Pepper</p>
       <div class="head-container">
-        <p><a class="head-link text-white-50" href="#">log out</a></p>
-        <p><a class="head-link text-white-50" href="#">settings</a></p>
+        <p><a class="head-link text-white-50" href="{% url 'login' %}">log out</a></p>
+        <p><a class="head-link text-white-50" href="{% url 'settings' %}">settings</a></p>
       </div>
     </div>
   </div>

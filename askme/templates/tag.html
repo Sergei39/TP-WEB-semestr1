@@ -12,13 +12,12 @@
     <h4>Tag:</h4>
   </div>
   <div class="col-10 name-person">
-    <h4>bender</h4>
+    <h4>{{ tagname }}</h4>
   </div>
 
-  {% include 'inc/question_box.html' %}
-  {% include 'inc/question_box.html' %}
-  {% include 'inc/question_box.html' %}
-  {% include 'inc/question_box.html' %}
+  {% for question in questions %}
+    {% include 'inc/question_box.html' %}
+  {% endfor %}
 
 </div>
 {% endblock %}

@@ -3,14 +3,15 @@
     <h4>Popular Tags</h4>
   </div>
   <div class="tags-container">
-      <p class="tag">perl</p>
-      <p class="tag">python</p>
-      <p class="tag">TehnoPark</p>
-      <p class="tag">MySQL</p>
-      <p class="tag">django</p>
-      <p class="tag">Mail.Ru</p>
-      <p class="tag">Voloshin</p>
-      <p class="tag">Firefox</p>
+    <!-- TODO: tagname not hardcode -->
+    <a href="{% url 'tag' tagname='perl' %}" class="tag text-dark">perl</a>
+    <a href="{% url 'tag' tagname='python' %}" class="tag text-dark">python</a>
+    <a href="{% url 'tag' tagname='TehnoPark' %}" class="tag text-dark">TehnoPark</a>
+    <a href="{% url 'tag' tagname='MySQL' %}" class="tag text-dark">MySQL</a>
+    <a href="{% url 'tag' tagname='django' %}" class="tag text-dark">django</a>
+    <a href="{% url 'tag' tagname='Mail.Ru' %}" class="tag text-dark">Mail.Ru</a>
+    <a href="{% url 'tag' tagname='Voloshin' %}" class="tag text-dark">Voloshin</a>
+    <a href="{% url 'tag' tagname='Firefox' %}" class="tag text-dark">Firefox</a>
   </div>
 </div>
 
@@ -19,7 +20,7 @@
     <h4>Best Members</h4>
   </div>
   <ul class="">
-    <li class=""><a href="#">Mr.Freeman</a></li>
+    <li><a href="#">Mr.Freeman</a></li>
     <li><a href="#">Mr.Freeman</a></li>
     <li><a href="#">Mr.Freeman</a></li>
     <li><a href="#">Mr.Freeman</a></li>
