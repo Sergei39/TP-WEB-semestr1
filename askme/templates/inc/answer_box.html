@@ -5,17 +5,13 @@
     <img class="person-answer-img" src="{% static 'img/200.jpeg' %}" alt="">
     <div class="d-flex justify-content-center like-info">
       <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/like.png' %}" height="24">
-      <div class="bd-highlight like-status">+2</div>
+      <div class="bd-highlight like-status">{{ answer.like }}</div>
       <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/dislike.png' %}" height="24">
     </div>
   </div>
   <div class="col-10 content-answer">
     <div class="text-answer">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-      irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur.
+      {{ answer.title }} <br></br> {{ answer.text }}
     </div>
     <div class="row info-answer">
       <!-- TODO: Correct! -->

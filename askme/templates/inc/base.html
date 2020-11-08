@@ -17,7 +17,9 @@
   </head>
   <body class="d-flex flex-column h-100">
     <header>
-      {% include 'inc/navbar.html' %}
+      {% block header %}
+        {% include 'inc/navbar_unauth.html' %}
+      {% endblock %}
     </header>
     <main role="main" class="d-flex justify-content-center container">
       <div class="row container d-flex justify-content-between">

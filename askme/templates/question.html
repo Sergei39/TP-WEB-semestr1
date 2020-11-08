@@ -12,7 +12,7 @@
         <img class="person-qst-img" src="{% static 'img/200.jpeg' %}" alt="">
         <div class="d-flex justify-content-center like-info">
           <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/like.png' %}" height="24">
-          <div class="bd-highlight like-status">+2</div>
+          <div class="bd-highlight like-status">{{ question.like }}</div>
           <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/dislike.png' %}" height="24">
         </div>
       </div>
@@ -27,18 +27,19 @@
         <div class="tags-qst">
           <p class="float-left">Tags: </p>
           <p class="float-left tag-qst">
-            <a herf="#">black-jack</a>
+            <a href="#">black-jack</a>
           </p>
           <p class="float-left tag-qst">
-            <a herf="#">bender</a>
+            <a href="#">bender</a>
           </p>
         </div>
       </div>
     </div>
 
     <div class="answers border-bottom border-top border-dark">
-      {% include 'inc/answer_box.html' %}
-      {% include 'inc/answer_box.html' %}
+      {% for answer in answers %}
+        {% include 'inc/answer_box.html' %}
+      {% endfor %}
     </div>
 
     <form class="body-page col-12 new-answer">

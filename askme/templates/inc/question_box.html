@@ -5,7 +5,7 @@
       <img class="question-img" src="{% static 'img/200.jpeg' %}" alt="">
       <div class="d-flex justify-content-center like-info">
         <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/like.png' %}" height="24">
-        <div class="bd-highlight like-status">+2</div>
+        <div class="bd-highlight like-status">{{ question.like }}</div>
         <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/dislike.png' %}" height="24">
       </div>
   </div>
@@ -19,15 +19,15 @@
       </div>
       <div class="row question-info">
         <div class="col-3 question-answer">
-          <a href="{% url 'question' pk=question.id %}">answer(3)</a>
+          <a href="{% url 'question' pk=question.id %}">answer({{ question.answer }})</a>
         </div>
         <div class="col-auto question-tags">
           <p class="float-left">Tags: </p>
           <p class="float-left ques-tag">
-            <a herf="#">black-jack</a>
+            <a href="#">black-jack</a>
           </p>
           <p class="float-left ques-tag">
-            <a herf="#">bender</a>
+            <a href="#">bender</a>
           </p>
         </div>
       </div>
