@@ -59,7 +59,7 @@ def login(request):
 def question(request, pk):
     question = questions[pk]
     this_answers = answers[:question.get('answer')]
-    page_obj = paginate(request, this_answers)
+    page_obj = paginate(request, this_answers, 3)
     return render(request, 'question.html', {
         'question': question,
         'answers': page_obj,
