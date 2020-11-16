@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from app.models import Profile, Question, Answer, Tag, Like
 import random
 import itertools
 
@@ -33,6 +34,7 @@ def paginate(request, object_list, per_page=7):
 
 
 def index(request):
+    questions = Question.objects.recent_questions()
     page_obj = paginate(request, questions)
     return render(request,'index.html', {
         'questions':page_obj,
@@ -57,9 +59,9 @@ def login(request):
 
 
 def question(request, pk):
-    question = questions[pk]
-    this_answers = answers[:question.get('answer')]
-    page_obj = paginate(request, this_answers, 3)
+    question = Question.objects.recent_questions().first()
+    this_answers = answers[:5]
+    page_obj = paginate(request, this_answers, question.like + 2)
     return render(request, 'question.html', {
         'question': question,
         'answers': page_obj,
