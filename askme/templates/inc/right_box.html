@@ -3,15 +3,9 @@
     <h4>Popular Tags</h4>
   </div>
   <div class="tags-container">
-    <!-- TODO: tagname not hardcode -->
-    <a href="{% url 'tag' tagname='perl' %}" class="tag text-dark">perl</a>
-    <a href="{% url 'tag' tagname='python' %}" class="tag text-dark">python</a>
-    <a href="{% url 'tag' tagname='TehnoPark' %}" class="tag text-dark">TehnoPark</a>
-    <a href="{% url 'tag' tagname='MySQL' %}" class="tag text-dark">MySQL</a>
-    <a href="{% url 'tag' tagname='django' %}" class="tag text-dark">django</a>
-    <a href="{% url 'tag' tagname='Mail.Ru' %}" class="tag text-dark">Mail.Ru</a>
-    <a href="{% url 'tag' tagname='Voloshin' %}" class="tag text-dark">Voloshin</a>
-    <a href="{% url 'tag' tagname='Firefox' %}" class="tag text-dark">Firefox</a>
+    {% for tag in tags %}
+      <a href="{% url 'tag' tagname=tag.name %}" class="tag text-dark">{{ tag.name }}</a>
+    {% endfor %}
   </div>
 </div>
 

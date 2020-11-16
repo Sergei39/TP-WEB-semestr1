@@ -34,11 +34,12 @@ def paginate(request, object_list, per_page=7):
 
 
 def index(request):
-    questions = Question.objects.recent_questions()
+    questions = Question.objects.last_questions()
     page_obj = paginate(request, questions)
     return render(request,'index.html', {
-        'questions':page_obj,
-        'page_obj': page_obj
+        'questions': page_obj,
+        'page_obj': page_obj,
+        'tags': Tag.objects.get_all(),
     })
 
 
@@ -46,7 +47,8 @@ def hot(request):
     page_obj = paginate(request, questions)
     return render(request,'hot.html', {
         'questions':page_obj,
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'tags': Tag.objects.get_all(),
     })
 
 
@@ -59,13 +61,14 @@ def login(request):
 
 
 def question(request, pk):
-    question = Question.objects.recent_questions().first()
-    this_answers = answers[:5]
-    page_obj = paginate(request, this_answers, question.like + 2)
+    question = Question.objects.question_by_pk(pk)
+    this_answers = Answer.objects.get_by_question(question)
+    page_obj = paginate(request, this_answers, 3)
     return render(request, 'question.html', {
         'question': question,
         'answers': page_obj,
         'page_obj': page_obj,
+        'tags': Tag.objects.get_all(),
     })
 
 
@@ -78,9 +81,11 @@ def signup(request):
 
 
 def tag(request, tagname):
+    questions = Question.objects.question_by_tag(tagname)
     page_obj = paginate(request, questions)
     return render(request, 'tag.html', {
         'questions':page_obj,
         'page_obj': page_obj,
         'tagname': tagname,
+        'tags': Tag.objects.get_all(),
     })

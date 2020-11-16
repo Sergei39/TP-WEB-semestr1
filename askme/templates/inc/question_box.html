@@ -23,12 +23,11 @@
         </div>
         <div class="col-auto question-tags">
           <p class="float-left">Tags: </p>
-          <p class="float-left ques-tag">
-            <a href="#">black-jack</a>
-          </p>
-          <p class="float-left ques-tag">
-            <a href="#">bender</a>
-          </p>
+          {% for tag in question.tags.get_all %}
+            <p class="float-left ques-tag">
+              <a href="{% url 'tag' tagname=tag.name %}">{{ tag.name }}</a>
+            </p>
+          {% endfor %}
         </div>
       </div>
   </div>

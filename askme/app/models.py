@@ -4,16 +4,17 @@ from django.db import models
 
 # modelMeneger - класс в котором пишется логика проекта
 class QuestionManager(models.Manager):
-    def recent_questions(self):
+    def last_questions(self):
+        return self.order_by('-data_create')
+
+    def best_questions(self):
         return self.filter()
 
-    @property
-    def like(self):
-        return 2
+    def question_by_pk(self, pk):
+        return self.get(pk = pk)
 
-    @property
-    def answer(self):
-        return Answer.objects.filter(question = Question.objects.filter().first().id).count()
+    def question_by_tag(self, tag):
+        return self.filter(tags__name = tag)
 
 
 class User(models.Model):
@@ -33,11 +34,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.nick_name
 
-    user = models.OneToOneField(
-        'User',
-        on_delete=models.CASCADE,
-        related_name='profile'
-    )
+    # user = models.OneToOneField(
+    #     'User',
+    #     on_delete=models.CASCADE,
+    #     related_name='profile'
+    # )
 
     # содержится информация, как класс должен создаваться
     # джанго - админка
@@ -50,44 +51,64 @@ class Question(models.Model):
     # verbose_name - указание что содерижтся в переменной (правило хорошего тона)
     title = models.CharField(max_length=1024, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
-    data_create = models.DateField(auto_now_add=True, verbose_name='Дата создания') # автоматически добавляет дату создания
+    data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания') # автоматически добавляет дату создания
 
     objects = QuestionManager()
 
     def __str__(self):
         return self.title
 
+    def like(self):
+        return 5
+
+    def answer(self):
+        return Answer.objects.filter(question = self).count()
+
     # связь многие ко многим, создает отдельную табличку с тремя полями (синтетический id, ключ автора, ключ статьи)
 
     # связь сущностей (один ко многим)
     # на уровне бд, в таблице Article создатся поле authorId (id, которым можно сослаться на автора)
-    tag = models.ManyToManyField('Tag', related_name='question')
-    user = models.ForeignKey('User', default='', on_delete=models.SET_DEFAULT, blank=True)
+    tags = models.ManyToManyField('Tag', related_name='questions')
+    user = models.ForeignKey('Profile', default='', on_delete=models.SET_DEFAULT, blank=True)
 
     class Meta:
         verbose_name = 'Вопрос'
         verbose_name_plural = 'Вопросы'
 
 
+class AnswerManager(models.Manager):
+    def get_by_question(self, question_obj):
+        return self.filter(question = question_obj.pk)
+
+
 class Answer(models.Model):
     is_correct = models.BooleanField(default=False, verbose_name='Корректный')
     text = models.TextField(verbose_name='Текст')
-    data_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    objects = AnswerManager()
 
     def __str__(self):
         return self.text
 
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'
 
 
+class TagManager(models.Manager):
+    def get_all(self):
+        return self.all()
+
+
 class Tag(models.Model):
-    name = models.TextField(verbose_name='Название')
+    name = models.CharField(max_length=1024, verbose_name='Название')
     data_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+
+    objects = TagManager()
 
     def __str__(self):
         return self.name
@@ -104,9 +125,10 @@ class Owner(models.Model):
 
 class Like(models.Model):
     is_like = models.BooleanField(verbose_name='Лайк? (или дизлайк)')
-    data_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     content = models.OneToOneField('Owner', on_delete=models.CASCADE)
+    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Лайк'
