@@ -39,16 +39,17 @@ def index(request):
     return render(request,'index.html', {
         'questions': page_obj,
         'page_obj': page_obj,
-        'tags': Tag.objects.get_all(),
+        'tags': Tag.objects.get_best(),
     })
 
 
 def hot(request):
+    questions = Question.objects.best_questions()
     page_obj = paginate(request, questions)
     return render(request,'hot.html', {
         'questions':page_obj,
         'page_obj': page_obj,
-        'tags': Tag.objects.get_all(),
+        'tags': Tag.objects.get_best(),
     })
 
 
@@ -68,7 +69,7 @@ def question(request, pk):
         'question': question,
         'answers': page_obj,
         'page_obj': page_obj,
-        'tags': Tag.objects.get_all(),
+        'tags': Tag.objects.get_best(),
     })
 
 
@@ -87,5 +88,5 @@ def tag(request, tagname):
         'questions':page_obj,
         'page_obj': page_obj,
         'tagname': tagname,
-        'tags': Tag.objects.get_all(),
+        'tags': Tag.objects.get_best(),
     })

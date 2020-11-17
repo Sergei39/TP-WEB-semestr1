@@ -59,7 +59,9 @@ class Question(models.Model):
         return self.title
 
     def like(self):
-        return 5
+        like = Owner.objects.filter(question = self, like__is_like = True).count()
+        dislike = Owner.objects.filter(question = self, like__is_like = False).count()
+        return like - dislike
 
     def answer(self):
         return Answer.objects.filter(question = self).count()
@@ -91,6 +93,11 @@ class Answer(models.Model):
     def __str__(self):
         return self.text
 
+    def like(self):
+        like = Owner.objects.filter(answer = self, like__is_like = True).count()
+        dislike = Owner.objects.filter(answer = self, like__is_like = False).count()
+        return like - dislike
+
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
     user = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
@@ -100,8 +107,8 @@ class Answer(models.Model):
 
 
 class TagManager(models.Manager):
-    def get_all(self):
-        return self.all()
+    def get_best(self):
+        return self.all()[:10]
 
 
 class Tag(models.Model):
@@ -127,7 +134,7 @@ class Like(models.Model):
     is_like = models.BooleanField(verbose_name='Лайк? (или дизлайк)')
     data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
-    content = models.OneToOneField('Owner', on_delete=models.CASCADE)
+    content = models.OneToOneField('Owner', on_delete=models.CASCADE, related_name='like')
     user = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
     class Meta:

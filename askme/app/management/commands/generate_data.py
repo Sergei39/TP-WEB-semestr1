@@ -9,17 +9,45 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         # Positional arguments
-        parser.add_argument('poll_ids', type=int)
+        parser.add_argument(
+            '--db_size',
+            choices=['small', 'medium', 'large'],
+            help='choose how many data to fill the base'
+        )
+        parser.add_argument('--add_users', type=int, help='users creation')
+        parser.add_argument('--add_tags', type=int, help='tags creation')
+        parser.add_argument('--add_questions', type=int, help='questions creation')
+        parser.add_argument('--add_answers', type=int, help='answers creation')
+        parser.add_argument('--add_likes', type=int, help='likes creation')
+
 
     def handle(self, *args, **options):
-        a = options['poll_ids']
-        self.stdout.write('hello')
-        self.bd_generate(0.0005)
+        opt = options['db_size']
+        if (opt):
+            percent = {
+                'small': 0.0005,
+                'medium': 0.001,
+                'large': 0.01,
+                }.get(opt, 0.00005)
+                # self.stdout.write(percent)
+            self.bd_generate(percent)
+
+        if (options['add_users']):
+            self.generate_users(options['add_users'])
+        if (options['add_tags']):
+            self.generate_tags(options['add_tags'])
+        if (options['add_questions']):
+            self.generate_questions(options['add_questions'])
+        if (options['add_answers']):
+            self.generate_answers(options['add_answers'])
+        if (options['add_likes']):
+            self.generate_likes(options['add_likes'])
+
 
 
     def bd_generate(self, percen):
         MAX_USER = 10000
-        MAX_QUESTION = 10000
+        MAX_QUESTION = 20000
         MAX_TAG = 10000
         MAX_ANSWER = 100000
         MAX_LIKE = 200000
@@ -27,35 +55,33 @@ class Command(BaseCommand):
         if (percen > 1):
             return;
 
-        for i in range(int(percen * MAX_USER)):
-            self.generate_user()
-        for i in range(int(percen * MAX_TAG)):
-            self.generate_tag()
-        for i in range(int(percen * MAX_QUESTION)):
-            self.generate_question()
-        for i in range(int(percen * MAX_ANSWER)):
-            self.generate_answer()
-        for i in range(int(percen * MAX_LIKE)):
-            self.generate_like()
+        self.generate_users(int(percen * MAX_USER))
+        self.generate_tags(int(percen * MAX_TAG))
+        self.generate_questions(int(percen * MAX_QUESTION))
+        self.generate_answers(int(percen * MAX_ANSWER))
+        self.generate_likes(int(percen * MAX_LIKE))
 
-    def generate_user(self):
-        user = Profile()
-        user.nick_name = f.first_name()
-        user.save()
+    def generate_users(self, cnt):
+        for i in range(cnt):
+            user = Profile()
+            user.nick_name = f.first_name()
+            user.save()
 
-    def generate_tag(self):
-        tag = Tag()
-        tag.name = f.word()
-        tag.save()
+    def generate_tags(self, cnt):
+        for i in range(cnt):
+            tag = Tag()
+            tag.name = f.word()
+            tag.save()
 
-    def generate_answer(self):
-        answer = Answer()
-        answer.is_correct = choice([True, False])
-        answer.text = ' '.join(f.sentences(f.random_int(min=3, max=6)))
-        answer.question_id = self.get_random_question_id()
-        answer.user_id = self.get_random_user_id()
+    def generate_answers(self, cnt):
+        for i in range(cnt):
+            answer = Answer()
+            answer.is_correct = choice([True, False])
+            answer.text = ' '.join(f.sentences(f.random_int(min=3, max=6)))
+            answer.question_id = self.get_random_question_id()
+            answer.user_id = self.get_random_user_id()
 
-        answer.save()
+            answer.save()
 
     def get_random_question_id(self):
         questions_id = list(
@@ -89,29 +115,34 @@ class Command(BaseCommand):
         )
         return choice(tag_id)
 
-    def generate_like(self):
-        owner = Owner()
-        if (choice([True, False])):
-            question_id = self.get_random_question_id()
-        else:
-            answer_id = self.get_random_answer_id()
-        owner.save()
+    def generate_likes(self, cnt):
+        for i in range(cnt):
+            owner = Owner()
+            if (choice([True, False])):
+                owner.question_id = self.get_random_question_id()
+            else:
+                owner.answer_id = self.get_random_answer_id()
+            owner.save()
+
+            like = Like()
+
+            if (f.random_int(min=1, max=10) < 2):
+                like.is_like = False
+            else:
+                like.is_like = True
+            like.content = owner
+            like.user_id = self.get_random_user_id()
+
+            like.save()
 
 
-        like = Like()
-        like.is_like = choice([True, False])
-        like.content = owner
-        like.user_id = self.get_random_user_id()
+    def generate_questions(self, cnt):
+        for i in range(cnt):
+            question = Question()
+            question.title = f.sentence()[:128]
+            question.text = ' '.join(f.sentences(f.random_int(min=3, max=6)))
+            question.user_id = self.get_random_user_id()
 
-        like.save()
-
-
-    def generate_question(self):
-        question = Question()
-        question.title = f.sentence()[:128]
-        question.text = ' '.join(f.sentences(f.random_int(min=3, max=6)))
-        question.user_id = self.get_random_user_id()
-
-        question.save()
-        for i in range(f.random_int(min=1, max=3)):
-            question.tags.add(self.get_random_tag_id())
+            question.save()
+            for i in range(f.random_int(min=1, max=3)):
+                question.tags.add(self.get_random_tag_id())
