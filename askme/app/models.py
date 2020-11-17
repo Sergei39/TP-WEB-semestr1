@@ -28,7 +28,10 @@ class User(models.Model):
 class Profile(models.Model):
     nick_name = models.CharField(max_length=256, verbose_name='Имя')
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
-    # avatar = models.ImageField(verbose_name='Аватарка')
+    avatar = models.ImageField(upload_to='static/madia/image/avatar/',
+                                default = 'static/media/image/avatar/200.jpeg',
+                                blank = True,
+                                verbose_name='Аватарка')
 
     # чтобы сразу принтить (когда принтиться автор, принтиться определенные поля)
     def __str__(self):
@@ -109,6 +112,8 @@ class Answer(models.Model):
 class TagManager(models.Manager):
     def get_best(self):
         return self.all()[:10]
+    def get_all(self):
+        return self.all()
 
 
 class Tag(models.Model):

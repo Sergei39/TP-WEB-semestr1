@@ -12,7 +12,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '--db_size',
             choices=['small', 'medium', 'large'],
-            help='choose how many data to fill the base'
+            help='choose how many data to fill the database'
         )
         parser.add_argument('--add_users', type=int, help='users creation')
         parser.add_argument('--add_tags', type=int, help='tags creation')
@@ -65,6 +65,8 @@ class Command(BaseCommand):
         for i in range(cnt):
             user = Profile()
             user.nick_name = f.first_name()
+            num_ava = f.random_int(min=1, max=17)
+            user.avatar = f'/static/media/image/avatar/test{num_ava}.jpg'
             user.save()
 
     def generate_tags(self, cnt):

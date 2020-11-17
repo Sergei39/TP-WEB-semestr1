@@ -9,7 +9,7 @@
 {% block content %}
     <div class="row box-qst">
       <div class="col-2 info-person-qst">
-        <img class="person-qst-img" src="{% static 'img/200.jpeg' %}" alt="">
+        <img class="person-qst-img" src="{{ question.user.avatar.url }}" alt="">
         <div class="d-flex justify-content-center like-info">
           <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/like.png' %}" height="24">
           <div class="bd-highlight like-status">{{ question.like }}</div>

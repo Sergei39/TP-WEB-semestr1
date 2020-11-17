@@ -2,7 +2,7 @@
 
 <div class="row box-answer border border-dark rounded">
   <div class="col-2 info-person-answer">
-    <img class="person-answer-img" src="{% static 'img/200.jpeg' %}" alt="">
+    <img class="person-answer-img" src="{{ answer.user.avatar.url }}" alt="">
     <div class="d-flex justify-content-center like-info">
       <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/like.png' %}" height="24">
       <div class="bd-highlight like-status">{{ answer.like }}</div>
