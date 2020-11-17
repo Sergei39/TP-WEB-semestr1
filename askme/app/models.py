@@ -27,7 +27,7 @@ class User(models.Model):
 
 class Profile(models.Model):
     nick_name = models.CharField(max_length=256, verbose_name='Имя')
-    birthday = models.DateField(verbose_name='Дата рождения')
+    birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     # avatar = models.ImageField(verbose_name='Аватарка')
 
     # чтобы сразу принтить (когда принтиться автор, принтиться определенные поля)
