@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
-from app.models import Profile, Question, Tag, Answer, Like, Owner
+from app.models import Profile, Question, Tag, Answer, LikeAnswer, LikeQuestion
 from random import choice
 from faker import Faker
+from django.db import IntegrityError
 
 f = Faker()
 
@@ -119,30 +120,37 @@ class Command(BaseCommand):
 
     def generate_likes(self, cnt):
         for i in range(cnt):
-            owner = Owner()
-            if (choice([True, False])):
-                owner.question_id = self.get_random_question_id()
+            like_answer = LikeAnswer()
+            like_question = LikeQuestion()
+
+            like_question.question_id = self.get_random_question_id()
+
+            like_answer.answer_id = self.get_random_answer_id()
+
+
+            if (f.random_int(min=1, max=10) < 3):
+                like_answer.is_like = False
+                like_question.is_like = False
             else:
-                owner.answer_id = self.get_random_answer_id()
-            owner.save()
+                like_answer.is_like = True
+                like_question.is_like = True
 
-            like = Like()
+            like_question.user_id = self.get_random_user_id()
+            like_answer.user_id = self.get_random_user_id()
 
-            if (f.random_int(min=1, max=10) < 2):
-                like.is_like = False
-            else:
-                like.is_like = True
-            like.content = owner
-            like.user_id = self.get_random_user_id()
+            try:
+                like_question.save()
+                like_answer.save()
 
-            like.save()
+            except IntegrityError:
+                continue
 
 
     def generate_questions(self, cnt):
         for i in range(cnt):
             question = Question()
             question.title = f.sentence()[:128]
-            question.text = ' '.join(f.sentences(f.random_int(min=3, max=6)))
+            question.text = ' '.join(f.sentences(f.random_int(min=5, max=8)))
             question.user_id = self.get_random_user_id()
 
             question.save()

@@ -62,8 +62,8 @@ class Question(models.Model):
         return self.title
 
     def like(self):
-        like = Owner.objects.filter(question = self, like__is_like = True).count()
-        dislike = Owner.objects.filter(question = self, like__is_like = False).count()
+        like = LikeQuestion.objects.filter(question = self, is_like = True).count()
+        dislike = LikeQuestion.objects.filter(question = self, is_like = False).count()
         return like - dislike
 
     def answer(self):
@@ -97,8 +97,8 @@ class Answer(models.Model):
         return self.text
 
     def like(self):
-        like = Owner.objects.filter(answer = self, like__is_like = True).count()
-        dislike = Owner.objects.filter(answer = self, like__is_like = False).count()
+        like = LikeAnswer.objects.filter(answer = self, is_like = True).count()
+        dislike = LikeAnswer.objects.filter(answer = self, is_like = False).count()
         return like - dislike
 
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
@@ -129,19 +129,33 @@ class Tag(models.Model):
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
+#
+# class Owner(models.Model):
+#     question = models.ForeignKey('Question', null=True, blank=True, on_delete=models.CASCADE)
+#     answer = models.ForeignKey('Answer', null=True, blank=True, on_delete=models.CASCADE)
 
-class Owner(models.Model):
-    question = models.ForeignKey('Question', null=True, blank=True, on_delete=models.CASCADE)
-    answer = models.ForeignKey('Answer', null=True, blank=True, on_delete=models.CASCADE)
 
-
-class Like(models.Model):
+class LikeQuestion(models.Model):
     is_like = models.BooleanField(verbose_name='Лайк? (или дизлайк)')
     data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
-    content = models.OneToOneField('Owner', on_delete=models.CASCADE, related_name='like')
+    question = models.ForeignKey('Question', on_delete=models.CASCADE)
     user = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Лайк'
-        verbose_name_plural = 'Лайки'
+        verbose_name = 'Лайк вопроса'
+        verbose_name_plural = 'Лайки вопросов'
+        unique_together = ['question', 'user']
+
+
+class LikeAnswer(models.Model):
+    is_like = models.BooleanField(verbose_name='Лайк? (или дизлайк)')
+    data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    answer = models.ForeignKey('Answer', on_delete=models.CASCADE)
+    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Лайк ответа'
+        verbose_name_plural = 'Лайки ответов'
+        unique_together = ['answer', 'user']

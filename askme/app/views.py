@@ -1,32 +1,14 @@
 from django.shortcuts import render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from app.models import Profile, Question, Answer, Tag, Like
+from app.models import Profile, Question, Answer, Tag, LikeAnswer, LikeQuestion
 import random
 import itertools
 
 
 # Create your views here.
 
-questions = [
-    {
-        'id': idx,
-        'title': f'My best question {idx}',
-        'like': random.randint(-5, 5),
-        'answer': random.randint(0, 5),
-        'text': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur... ',
-    } for idx in range(20)
-]
 
-answers = [
-    {
-        'id': idx,
-        'title': f'answer {idx}',
-        'like': random.randint(-5, 5),
-        'text': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat... ',
-    } for idx in range(7)
-]
-
-def paginate(request, object_list, per_page=7):
+def paginate(request, object_list, per_page=10):
     paginator = Paginator(object_list, per_page)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
