@@ -28,7 +28,7 @@ class Command(BaseCommand):
             percent = {
                 'small': 0.0005,
                 'medium': 0.001,
-                'large': 0.01,
+                'large': 0.005,
                 }.get(opt, 0.00005)
                 # self.stdout.write(percent)
             self.bd_generate(percent)
@@ -48,10 +48,10 @@ class Command(BaseCommand):
 
     def bd_generate(self, percen):
         MAX_USER = 10000
-        MAX_QUESTION = 20000
+        MAX_QUESTION = 100000
         MAX_TAG = 10000
-        MAX_ANSWER = 100000
-        MAX_LIKE = 200000
+        MAX_ANSWER = 1000000
+        MAX_LIKE = 2000000
 
         if (percen > 1):
             return;
@@ -123,24 +123,27 @@ class Command(BaseCommand):
             like_answer = LikeAnswer()
             like_question = LikeQuestion()
 
-            like_question.question_id = self.get_random_question_id()
+            qst = Question.objects.get(id = self.get_random_question_id())
+            like_question.question_id = qst.id
 
             like_answer.answer_id = self.get_random_answer_id()
 
-
-            if (f.random_int(min=1, max=10) < 3):
+            if (f.random_int(min=1, max=10) < 4):
                 like_answer.is_like = False
                 like_question.is_like = False
+                qst.rating -= 1
             else:
                 like_answer.is_like = True
                 like_question.is_like = True
+                qst.rating += 1
 
             like_question.user_id = self.get_random_user_id()
             like_answer.user_id = self.get_random_user_id()
 
             try:
-                like_question.save()
                 like_answer.save()
+                like_question.save()
+                qst.save()
 
             except IntegrityError:
                 continue

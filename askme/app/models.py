@@ -8,7 +8,7 @@ class QuestionManager(models.Manager):
         return self.order_by('-data_create')
 
     def best_questions(self):
-        return self.filter()
+        return self.order_by('-rating', '-data_create')
 
     def question_by_pk(self, pk):
         return self.get(pk = pk)
@@ -55,6 +55,7 @@ class Question(models.Model):
     title = models.CharField(max_length=1024, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания') # автоматически добавляет дату создания
+    rating = models.IntegerField(default = 0, blank = True, verbose_name = 'Рейтинг')
 
     objects = QuestionManager()
 
@@ -128,11 +129,6 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
-
-#
-# class Owner(models.Model):
-#     question = models.ForeignKey('Question', null=True, blank=True, on_delete=models.CASCADE)
-#     answer = models.ForeignKey('Answer', null=True, blank=True, on_delete=models.CASCADE)
 
 
 class LikeQuestion(models.Model):
