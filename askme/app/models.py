@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -17,12 +18,9 @@ class QuestionManager(models.Manager):
         return self.filter(tags__name = tag)
 
 
-class User(models.Model):
-    # информация о пароле, логине пользователя
-
-    class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+class ProfileManager(models.Manager):
+    def get_best(self):
+        return self.all()[:5]
 
 
 class Profile(models.Model):
@@ -33,15 +31,17 @@ class Profile(models.Model):
                                 blank = True,
                                 verbose_name='Аватарка')
 
+    objects = ProfileManager()
+
     # чтобы сразу принтить (когда принтиться автор, принтиться определенные поля)
     def __str__(self):
         return self.nick_name
 
-    # user = models.OneToOneField(
-    #     'User',
-    #     on_delete=models.CASCADE,
-    #     related_name='profile'
-    # )
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
 
     # содержится информация, как класс должен создаваться
     # джанго - админка

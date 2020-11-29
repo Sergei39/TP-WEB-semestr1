@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from app.models import Profile, Question, Tag, Answer, LikeAnswer, LikeQuestion
+from django.contrib.auth.models import User
 from random import choice
 from faker import Faker
 from django.db import IntegrityError
@@ -64,11 +65,17 @@ class Command(BaseCommand):
 
     def generate_users(self, cnt):
         for i in range(cnt):
-            user = Profile()
-            user.nick_name = f.first_name()
-            num_ava = f.random_int(min=1, max=17)
-            user.avatar = f'/static/media/image/avatar/test{num_ava}.jpg'
+            name = f.first_name()
+            user = User(username=name, email=f.email())
+            user.set_password('xxx')
             user.save()
+
+            profile = Profile()
+            profile.user = user
+            profile.nick_name = name
+            num_ava = f.random_int(min=1, max=17)
+            profile.avatar = f'/static/media/image/avatar/test{num_ava}.jpg'
+            profile.save()
 
     def generate_tags(self, cnt):
         for i in range(cnt):

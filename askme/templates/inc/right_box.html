@@ -14,10 +14,8 @@
     <h4>Best Members</h4>
   </div>
   <ul class="">
-    <li><a href="#">Mr.Freeman</a></li>
-    <li><a href="#">Mr.Freeman</a></li>
-    <li><a href="#">Mr.Freeman</a></li>
-    <li><a href="#">Mr.Freeman</a></li>
-    <li><a href="#">Mr.Freeman</a></li>
+    {% for member in members %}
+      <li><a href="#">{{ member.nick_name }}</a></li>
+    {% endfor %}
   </ul>
 </div>

@@ -1,4 +1,6 @@
 {% extends 'inc/base.html' %}
+
+{% load bootstrap4 %}
 {% load static %}
 
 {% block title %}Login{% endblock %}
@@ -10,9 +12,10 @@
     <div class="name-page col-12">
       <h4>Log in</h4>
     </div>
-    <form class="col-12">
+    <!-- атрибут form: enctype - как будут отправленны данные, картинку отправить -->
+    <form class="col-12" action="/login/" method="post">
       <h5 class="inline text-danger">Wrong login or password!</h5>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="inputEmail1">Email address</label>
         <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp">
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -20,8 +23,12 @@
       <div class="form-group">
         <label for="inputPassword">Password</label>
         <input type="password" class="form-control" id="inputPassword">
-      </div>
-      <button type="submit" class="btn btn-primary btn-dark">Log in</button>
+      </div> -->
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary btn-dark">Log in</button>
+      {% endbuttons %}
       <div class="new-account">
         <a href="{% url 'signup' %}" class="text-dark">create new account</a>
       </div>

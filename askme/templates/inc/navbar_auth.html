@@ -14,11 +14,11 @@
     </button>
   </div>
   <div class="head-nav form-inline">
-    <img class="avatart-img" src="{% static "img/200.jpeg" %}" height="48" alt="" loading="lazy">
+    <img class="avatart-img" src="{{ user.profile.avatar.url }}" height="48" alt="" loading="lazy">
     <div class="head-box">
-      <p class="avatar-name text-light">Dr. Pepper</p>
+      <p class="avatar-name text-light">{{ user.profile.nick_name }}</p>
       <div class="head-container">
-        <p><a class="head-link text-white-50" href="{% url 'login' %}">log out</a></p>
+        <p><a class="head-link text-white-50" href="{% url 'logout' %}">log out</a></p>
         <p><a class="head-link text-white-50" href="{% url 'settings' %}">settings</a></p>
       </div>
     </div>

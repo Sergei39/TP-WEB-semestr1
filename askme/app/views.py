@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.contrib.auth.decorators import login_required
 from app.models import Profile, Question, Answer, Tag, LikeAnswer, LikeQuestion
-import random
 import itertools
+from django.contrib import auth
+from app.forms import LoginForm, AskForm
 
-
-# Create your views here.
 
 
 def paginate(request, object_list, per_page=10):
@@ -22,6 +22,7 @@ def index(request):
         'questions': page_obj,
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best(),
     })
 
 
@@ -32,15 +33,51 @@ def hot(request):
         'questions':page_obj,
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best(),
     })
 
 
+@login_required
 def ask(request):
-    return render(request, 'ask.html', {})
+    if request.method == 'GET':
+        form = AskForm()
+    else:
+        form = AskForm(data=request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.user = request.user.profile
+            question.save()
+            return redirect(reverse('question', kwargs={'pk': question.pk}))
+    ctx = {
+        'form': form,
+        'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best()
+    }
+    return render(request, 'ask.html', ctx)
 
 
 def login(request):
-    return render(request, 'login.html', {})
+    if request.method == 'GET':
+        form = LoginForm()
+    else:
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            user = auth.authenticate(request, **form.cleaned_data)
+            if user is not None:
+                auth.login(request, user)
+                return redirect("/") # нужны правильные редиректы!
+
+    ctx = {
+        'form': form,
+        'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best()
+    }
+    return render(request, 'login.html', ctx)
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("/")
 
 
 def question(request, pk):
@@ -52,15 +89,22 @@ def question(request, pk):
         'answers': page_obj,
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best(),
     })
 
 
 def settings(request):
-    return render(request, 'settings.html', {})
+    return render(request, 'settings.html', {
+        'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best(),
+    })
 
 
 def signup(request):
-    return render(request, 'signup.html', {})
+    return render(request, 'signup.html', {
+        'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best(),
+    })
 
 
 def tag(request, tagname):
@@ -71,4 +115,5 @@ def tag(request, tagname):
         'page_obj': page_obj,
         'tagname': tagname,
         'tags': Tag.objects.get_best(),
+        'members': Profile.objects.get_best(),
     })

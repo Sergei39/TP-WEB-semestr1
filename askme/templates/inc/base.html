@@ -18,7 +18,11 @@
   <body class="d-flex flex-column h-100">
     <header>
       {% block header %}
-        {% include 'inc/navbar_unauth.html' %}
+        {% if user.is_authenticated %}
+          {% include 'inc/navbar_auth.html' %}
+        {% else %}
+          {% include 'inc/navbar_unauth.html' %}
+        {% endif %}
       {% endblock %}
     </header>
     <main role="main" class="d-flex justify-content-center container">
