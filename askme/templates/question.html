@@ -1,4 +1,6 @@
 {% extends 'inc/base.html' %}
+
+{% load bootstrap4 %}
 {% load static %}
 
 {% block title %}Question{% endblock %}
@@ -41,11 +43,17 @@
       {% endfor %}
     </div>
 
-    <form class="body-page col-12 new-answer">
-      <div class="form-group">
+    <form class="body-page col-12 new-answer" method="post" novalidate>
+      <!-- <div class="form-group">
         <textarea class="form-control border border-dark" id="inputText" rows=4 placeholder="Enter your answer here"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary mb-2 btn-dark">Answer</button>
+      <button type="submit" class="btn btn-primary mb-2 btn-dark">Answer</button> -->
+
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary btn-dark">Answer</button>
+      {% endbuttons %}
     </form>
 {% endblock %}
 

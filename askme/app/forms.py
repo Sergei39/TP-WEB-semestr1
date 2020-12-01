@@ -1,5 +1,5 @@
 from django import forms
-from app.models import Question, Profile
+from app.models import Question, Profile, Answer
 from django.contrib.auth.models import User
 
 
@@ -13,7 +13,16 @@ class LoginForm(forms.Form):
 class AskForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['title', 'text', 'tags']
+        fields = ['title', 'text']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'] = forms.CharField()
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['text']
 
 
 class RegistrForm(forms.ModelForm):

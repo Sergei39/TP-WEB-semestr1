@@ -17,6 +17,9 @@ code {
 .question-box {
   margin-top: 20px;
   padding: 12px;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
 }
 
 .question-img {

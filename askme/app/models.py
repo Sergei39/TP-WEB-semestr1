@@ -114,10 +114,16 @@ class TagManager(models.Manager):
         return self.all()[:10]
     def get_all(self):
         return self.all()
+    def get_tag(self, tag):
+        tag = self.all().filter(name = tag)
+        if tag.count() == 0:
+            return None
+
+        return tag[0]
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=1024, verbose_name='Название')
+    name = models.CharField(max_length=1024, verbose_name='Название', unique=True)
     data_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
 
     objects = TagManager()

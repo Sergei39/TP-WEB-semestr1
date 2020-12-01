@@ -6,6 +6,7 @@ import itertools
 from django.contrib import auth
 from app.forms import *
 from django.contrib.auth.models import User
+import re
 
 
 
@@ -48,6 +49,13 @@ def ask(request):
             question = form.save(commit=False)
             question.user = request.user.profile
             question.save()
+            tags = form.cleaned_data['tags']
+            tags = re.sub(r'[.,]', ' ', tags).split()
+            for tag in tags:
+                tag_model = Tag.objects.get_tag(tag)
+                if tag_model is None:
+                    tag_model = Tag.objects.create(name = tag)
+                question.tags.add(tag_model)
             return redirect(reverse('question', kwargs={'pk': question.pk}))
     ctx = {
         'form': form,
@@ -88,10 +96,22 @@ def logout(request):
 
 
 def question(request, pk):
+    if request.method == 'GET':
+        form = AnswerForm()
+    else:
+        form = AnswerForm(data=request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.user = request.user.profile
+            answer.question = Question.objects.get(pk = pk)
+            answer.save()
+            return redirect(reverse('question', kwargs={'pk': pk}))
+
     question = Question.objects.question_by_pk(pk)
     this_answers = Answer.objects.get_by_question(question)
     page_obj = paginate(request, this_answers, 3)
     return render(request, 'question.html', {
+        'form': form,
         'question': question,
         'answers': page_obj,
         'page_obj': page_obj,
