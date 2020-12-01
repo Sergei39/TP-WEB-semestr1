@@ -16,9 +16,9 @@
   <div class="head-nav form-inline">
     <img class="avatart-img" src="{{ user.profile.avatar.url }}" height="48" alt="" loading="lazy">
     <div class="head-box">
-      <p class="avatar-name text-light">{{ user.profile.nick_name }}</p>
+      <p class="avatar-name text-light">{{ user.get_full_name }}</p>
       <div class="head-container">
-        <p><a class="head-link text-white-50" href="{% url 'logout' %}">log out</a></p>
+        <p><a class="head-link text-white-50" href="{% url 'logout' %}?next={{ request.path }}">log out</a></p>
         <p><a class="head-link text-white-50" href="{% url 'settings' %}">settings</a></p>
       </div>
     </div>

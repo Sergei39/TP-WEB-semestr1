@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from app.models import Profile, Question, Answer, Tag, LikeAnswer, LikeQuestion
 import itertools
 from django.contrib import auth
-from app.forms import LoginForm, AskForm
+from app.forms import *
+from django.contrib.auth.models import User
 
 
 
@@ -57,6 +58,7 @@ def ask(request):
 
 
 def login(request):
+    error = None
     if request.method == 'GET':
         form = LoginForm()
     else:
@@ -65,19 +67,24 @@ def login(request):
             user = auth.authenticate(request, **form.cleaned_data)
             if user is not None:
                 auth.login(request, user)
-                return redirect("/") # нужны правильные редиректы!
+                return redirect(request.GET.get('next', '/'))
+            else:
+                error = 'Incorrect login or password'
 
     ctx = {
         'form': form,
         'tags': Tag.objects.get_best(),
-        'members': Profile.objects.get_best()
+        'members': Profile.objects.get_best(),
+        'continue': request.GET.get('next', '/'),
+        'error': error,
     }
     return render(request, 'login.html', ctx)
 
 
+@login_required
 def logout(request):
     auth.logout(request)
-    return redirect("/")
+    return redirect(request.GET.get('next', '/'))
 
 
 def question(request, pk):
@@ -93,18 +100,55 @@ def question(request, pk):
     })
 
 
+@login_required
 def settings(request):
-    return render(request, 'settings.html', {
+    if request.method == 'GET':
+        form = SettingsForm(data = {
+            'username': request.user.username,
+            'email': request.user.email,
+            'first_name': request.user.first_name,
+            'avatar': request.user.profile.avatar
+        })
+    else:
+        form = SettingsForm(data=request.POST)
+        if form.is_valid():
+            request.user.username = form.username
+            request.user.email = form.email
+            request.user.first_name = form.first_name
+            request.user.profile.avatar = form.avatar
+            request.user.save()
+
+            return redirect('/settings/')
+
+    ctx = {
+        'form': form,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
-    })
+        'continue': request.GET.get('next', '/'),
+    }
+    return render(request, 'settings.html', ctx)
 
 
 def signup(request):
-    return render(request, 'signup.html', {
+    if request.method == 'GET':
+        form = RegistrForm()
+    else:
+        form = RegistrForm(data=request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(**form.cleaned_data)
+            profile = Profile(user=user)
+            profile.save()
+            if user is not None:
+                auth.login(request, user)
+                return redirect(request.GET.get('next', '/'))
+
+    ctx = {
+        'form': form,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
-    })
+        'continue': request.GET.get('next', '/'),
+    }
+    return render(request, 'signup.html', ctx)
 
 
 def tag(request, tagname):

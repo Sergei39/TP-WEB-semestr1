@@ -1,4 +1,6 @@
 {% extends 'inc/base.html' %}
+
+{% load bootstrap4 %}
 {% load static %}
 
 {% block title %}Signup{% endblock %}
@@ -12,9 +14,9 @@
         <h4>Registration</h4>
       </div>
 
-      <form class="body-page col-12">
+      <form class="body-page col-12" action="/signup/?next={{ continue }}" method="post" novalidate>
         <h5 class="inline text-danger">User with this Email already exists</h5>
-        <div class="form-group row">
+        <!-- <div class="form-group row">
           <label for="inputLogin" class="col-sm-3 col-form-label">Login</label>
           <div class="col-sm-9">
             <input class="form-control" id="inputLogin" placeholder="dr_pepper">
@@ -38,7 +40,6 @@
             <input type="password" class="form-control" id="inputPassword">
           </div>
         </div>
-        <!-- TODO: password is not hidden -->
         <div class="form-group row">
           <label for="inputRepeatPassword" class="col-sm-3 col-form-label">Repeat password</label>
           <div class="col-sm-9">
@@ -58,12 +59,18 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="row">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+          <button type="submit" class="btn btn-primary btn-dark">Log in</button>
+        {% endbuttons %}
+
+        <!-- <div class="row">
           <div class="col-sm-3"></div>
           <button type="submit" class="btn btn-primary mb-2 btn-dark reg-btn">Registr</button>
-        </div>
+        </div> -->
       </form>
     </div>
 {% endblock %}
