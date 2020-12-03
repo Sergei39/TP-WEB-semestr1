@@ -127,15 +127,31 @@ def settings(request):
             'username': request.user.username,
             'email': request.user.email,
             'first_name': request.user.first_name,
-            'avatar': request.user.profile.avatar
         })
     else:
-        form = SettingsForm(data=request.POST)
+        form = SettingsForm(data = {
+            'username': request.POST.get('username'),
+            'email': request.POST.get('email'),
+            'first_name': request.POST.get('first_name'),
+            'avatar': request.FILES.get('avatar')
+        })
+
         if form.is_valid():
-            request.user.username = form.username
-            request.user.email = form.email
-            request.user.first_name = form.first_name
-            request.user.profile.avatar = form.avatar
+            profile = request.user.profile
+            request.user.profile.delete()
+            profile = Profile(
+                user = request.user,
+                avatar=request.FILES['avatar'],
+                birthday = profile.birthday
+            )
+
+            profile.save()
+        # request.user.profile.user = request.user
+
+
+            request.user.username = request.POST['username']
+            request.user.email = request.POST['email']
+            request.user.first_name = request.POST['first_name']
             request.user.save()
 
             return redirect('/settings/')
@@ -155,7 +171,11 @@ def signup(request):
     else:
         form = RegistrForm(data=request.POST)
         if form.is_valid():
-            user = User.objects.create_user(**form.cleaned_data)
+            user = User.objects.create_user(
+                username = form.cleaned_data.get('username'),
+                first_name = form.cleaned_data.get('first_name'),
+                email = form.cleaned_data.get('email'),
+                password = form.cleaned_data.get('password'))
             profile = Profile(user=user)
             profile.save()
             if user is not None:

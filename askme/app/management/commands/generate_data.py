@@ -102,7 +102,7 @@ class Command(BaseCommand):
 
     def get_random_user_id(self):
         user_id = list(
-            Profile.objects.values_list(
+            User.objects.values_list(
                 'id', flat=True
             )
         )

@@ -34,7 +34,7 @@ class Profile(models.Model):
 
     # чтобы сразу принтить (когда принтиться автор, принтиться определенные поля)
     def __str__(self):
-        return self.nick_name
+        return self.user.first_name
 
     user = models.OneToOneField(
         User,
@@ -74,7 +74,7 @@ class Question(models.Model):
     # связь сущностей (один ко многим)
     # на уровне бд, в таблице Article создатся поле authorId (id, которым можно сослаться на автора)
     tags = models.ManyToManyField('Tag', related_name='questions')
-    user = models.ForeignKey('Profile', default='', on_delete=models.SET_DEFAULT, blank=True)
+    user = models.ForeignKey(User, default='', on_delete=models.SET_DEFAULT, blank=True)
 
     class Meta:
         verbose_name = 'Вопрос'
@@ -102,7 +102,7 @@ class Answer(models.Model):
         return like - dislike
 
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
-    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Ответ'
@@ -141,7 +141,7 @@ class LikeQuestion(models.Model):
     data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
-    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Лайк вопроса'
@@ -154,7 +154,7 @@ class LikeAnswer(models.Model):
     data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     answer = models.ForeignKey('Answer', on_delete=models.CASCADE)
-    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Лайк ответа'

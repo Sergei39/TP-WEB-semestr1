@@ -28,15 +28,34 @@ class AnswerForm(forms.ModelForm):
 class RegistrForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'password']
+        fields = ['username', 'email', 'first_name']
+
+    password = forms.CharField()
+    repeat_password = forms.CharField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password'].widget = forms.PasswordInput()
+        self.fields['repeat_password'].widget = forms.PasswordInput()
 
 
-class SettingsForm(forms.Form):
+    def clean(self):
+        cleaned_data = super(RegistrForm, self).clean()
+        psw = cleaned_data.get('password')
+        repeat_psw = cleaned_data.get('repeat_password')
+
+        if repeat_psw != psw:
+            msg = "Passwords do not match"
+            self.add_error('password', msg)
+            self.add_error('repeat_password', msg)
+
+
+
+class SettingsForm(forms.ModelForm):
     username = forms.CharField()
     email = forms.EmailField()
     first_name = forms.CharField()
-    avatar = forms.ImageField()
+
+    class Meta:
+        model = Profile
+        fields = ["avatar"]
