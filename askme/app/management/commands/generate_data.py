@@ -68,13 +68,22 @@ class Command(BaseCommand):
             name = f.first_name()
             user = User(username=name, email=f.email(), first_name=name)
             user.set_password('xxx')
-            user.save()
+
+            try:
+                user.save()
+            except IntegrityError:
+                continue
 
             profile = Profile()
             profile.user = user
             num_ava = f.random_int(min=1, max=17)
             profile.avatar = f'/static/media/image/avatar/test{num_ava}.jpg'
             profile.save()
+
+            try:
+                profile.save()
+            except IntegrityError:
+                continue
 
     def generate_tags(self, cnt):
         for i in range(cnt):
