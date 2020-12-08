@@ -92,3 +92,8 @@ class SettingsForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["avatar"]
+
+    def __init__(self, *args, **kwargs):
+        # self.avatar = kwargs.pop('avatar', None)
+        super().__init__(*args, **kwargs)
+        self.fields['avatar'].widget = forms.ClearableFileInput()

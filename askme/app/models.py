@@ -25,8 +25,8 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
-    avatar = models.ImageField(upload_to='static/media/image/avatar/',
-                                default = 'static/media/image/avatar/200.jpeg',
+    avatar = models.ImageField(upload_to='avatar/%Y/%m/%d/',
+                                default = 'avatar.jpeg',
                                 blank = True,
                                 verbose_name='Аватарка')
 

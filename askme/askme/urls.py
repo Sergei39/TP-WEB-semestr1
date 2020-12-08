@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from app import views
 
@@ -29,4 +31,4 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('signup/', views.signup, name='signup'),
     path('tag/<str:tagname>/', views.tag, name='tag'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

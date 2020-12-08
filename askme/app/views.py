@@ -117,26 +117,29 @@ def settings(request):
             'username': request.user.username,
             'email': request.user.email,
             'first_name': request.user.first_name,
+            'avatar': request.user.profile.avatar,
         })
     else:
-        form = SettingsForm(data = {
-            'username': request.POST.get('username'),
-            'email': request.POST.get('email'),
-            'first_name': request.POST.get('first_name'),
-            'avatar': request.FILES.get('avatar')
-        })
+        # form = SettingsForm(data = {
+        #     'username': request.POST.get('username'),
+        #     'email': request.POST.get('email'),
+        #     'first_name': request.POST.get('first_name'),
+        #     'avatar': request.FILES.get('avatar')
+        # })
+        form = SettingsForm(
+            data=request.POST, files=request.FILES,
+            instance=request.user.profile)
 
         if form.is_valid():
             profile = request.user.profile
             request.user.profile.delete()
             profile = Profile(
                 user = request.user,
-                avatar=request.FILES['avatar'],
+                avatar=request.FILES.get('avatar', request.user.profile.avatar),
                 birthday = profile.birthday
             )
 
             profile.save()
-        # request.user.profile.user = request.user
 
 
             request.user.username = request.POST['username']
