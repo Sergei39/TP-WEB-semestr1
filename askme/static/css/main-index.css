@@ -14,7 +14,7 @@ code {
   font-size: 80%;
 }
 
-.question-box {
+.box-qst {
   margin-top: 20px;
   padding: 12px;
   margin-left: 0;
@@ -22,16 +22,16 @@ code {
   width: 100%;
 }
 
-.question-img {
+.person-qst-img {
   max-width: 100px;
 }
 
-.question-content{
+.content-qst{
   padding-left: 36px;
   padding-right: 36px;
 }
 
-.question-title {
+.title-qst {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 8px;
@@ -62,6 +62,6 @@ code {
   margin: auto;
 }
 
-.info-person{
+.info-person-qst{
   margin: auto;
 }

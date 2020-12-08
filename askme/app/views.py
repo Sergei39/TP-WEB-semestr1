@@ -8,6 +8,7 @@ from app.forms import *
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+from django.db import IntegrityError
 
 
 
@@ -26,6 +27,7 @@ def index(request):
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
+        'likes': LikeQuestion.objects.likes_user(request.user)
     })
 
 
@@ -202,10 +204,27 @@ def tag(request, tagname):
 @login_required
 def vote(request):
     data = request.POST
-    from pprint import pformat # noqa
-    print('\n\n', '=' * 100)
-    print(f'HERE: {pformat(data)}')
-    print('=' * 100, '\n\n')
+    if (data['like'] == 'question'):
+        like = LikeQuestion()
+        content = Question.objects.get(pk = data['id'])
+        like.question = content
+    elif (data['like'] == 'answer'):
+        like = LikeAnswer()
+        content = Answer.objects.get(pk = data['id'])
+        like.answer = content
+
+    like.user = request.user
+    if data['action'] == 'like':
+        like.is_like = True
+    else:
+        like.is_like = False
+
+    try:
+        like.save()
+    except IntegrityError:
+        return JsonResponse({ 'error': 'IntegrityError' })
+
+
     # обработка лайка
     # return кол-во лайков, на которое поставлено
-    return JsonResponse({ 'question_likes': 42 })
+    return JsonResponse({ 'likes': content.like() })

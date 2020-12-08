@@ -136,12 +136,20 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
 
+class LikeManager(models.Manager):
+    def likes_user(self, user):
+        self.filter(user = user)
+
+
+
 class LikeQuestion(models.Model):
     is_like = models.BooleanField(verbose_name='Лайк? (или дизлайк)')
     data_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    objects = LikeManager()
 
     class Meta:
         verbose_name = 'Лайк вопроса'

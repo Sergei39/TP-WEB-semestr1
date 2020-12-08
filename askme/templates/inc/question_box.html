@@ -1,17 +1,18 @@
 {% load static %}
 
-<div class="row question-box border border-dark rounded">
-  <div class="col-2 info-person">
-      <img class="question-img" src="{{ question.user.profile.avatar.url }}" alt="">
+<div class="row box-qst border border-dark rounded">
+  <div class="col-2 info-person-qst">
+      <img class="person-qst-img" src="{{ question.user.profile.avatar.url }}" alt="">
       <div class="d-flex justify-content-center like-info">
-        <img class="btn btn-primary btn-sm btn-light js-vote" data-action="like" data-qid="{{ question.pk }}" src="{% static 'img/like.png' %}" height="24">
-        <div class="bd-highlight like-status">{{ question.like }}</div>
-        <img class="btn btn-primary btn-sm btn-light js-vote" data-action="dislike" data-qid="{{ question.pk }}" src="{% static 'img/dislike.png' %}" height="24">
+        <!-- disabled вставить в class -->
+        <img class="btn btn-primary btn-sm btn-light js-vote" data-action="like" data-id="{{ question.pk }}" src="{% static 'img/like.png' %}" height="24">
+        <div class="bd-highlight like-status" id="like-rating-{{ question.pk }}">{{ question.like }}</div>
+        <img class="btn btn-primary btn-sm btn-light js-vote" data-action="dislike" data-id="{{ question.pk }}" src="{% static 'img/dislike.png' %}" height="24">
       </div>
   </div>
 
-  <div class="col-10 question-content">
-      <div class="question-title">
+  <div class="col-10 content-qst">
+      <div class="title-qst">
         <a href="{% url 'question' pk=question.id %}" class="text-dark">{{ question.title }}</a>
       </div>
       <div class="question-text">
@@ -21,7 +22,7 @@
         <div class="col-3 question-answer">
           <a href="{% url 'question' pk=question.id %}">answer({{ question.answer }})</a>
         </div>
-        <div class="col-auto question-tags">
+        <div class="col-auto tags-qst">
           <p class="float-left">Tags: </p>
           {% for tag in question.tags.get_all %}
             <p class="float-left ques-tag">
