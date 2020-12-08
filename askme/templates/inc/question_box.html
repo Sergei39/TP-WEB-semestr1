@@ -4,9 +4,9 @@
   <div class="col-2 info-person">
       <img class="question-img" src="{{ question.user.profile.avatar.url }}" alt="">
       <div class="d-flex justify-content-center like-info">
-        <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/like.png' %}" height="24">
+        <img class="btn btn-primary btn-sm btn-light js-vote" data-action="like" data-qid="{{ question.pk }}" src="{% static 'img/like.png' %}" height="24">
         <div class="bd-highlight like-status">{{ question.like }}</div>
-        <img class="btn btn-primary btn-sm btn-light" src="{% static 'img/dislike.png' %}" height="24">
+        <img class="btn btn-primary btn-sm btn-light js-vote" data-action="dislike" data-qid="{{ question.pk }}" src="{% static 'img/dislike.png' %}" height="24">
       </div>
   </div>
 

@@ -40,8 +40,11 @@
     <footer class="d-flex container justify-content-center">
       {% block footer %}{% endblock %}
     </footer>
-    <script src="{% static "js/jquery.slim.min.js" %}"></script>
+    <script src="{% static "js/jquery-3.5.1.min.js" %}"></script>
     <script src="{% static "js/popper.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/csrf.js" %}"></script>
+
+    {% block jscode %}{% endblock %}
   </body>
 </html>

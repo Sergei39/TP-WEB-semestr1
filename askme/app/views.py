@@ -6,6 +6,8 @@ import itertools
 from django.contrib import auth
 from app.forms import *
 from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 
 
@@ -194,3 +196,16 @@ def tag(request, tagname):
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
     })
+
+
+@require_POST
+@login_required
+def vote(request):
+    data = request.POST
+    from pprint import pformat # noqa
+    print('\n\n', '=' * 100)
+    print(f'HERE: {pformat(data)}')
+    print('=' * 100, '\n\n')
+    # обработка лайка
+    # return кол-во лайков, на которое поставлено
+    return JsonResponse({ 'question_likes': 42 })
