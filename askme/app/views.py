@@ -6,7 +6,6 @@ import itertools
 from django.contrib import auth
 from app.forms import *
 from django.contrib.auth.models import User
-import re
 
 
 
@@ -44,19 +43,11 @@ def ask(request):
     if request.method == 'GET':
         form = AskForm()
     else:
-        form = AskForm(data=request.POST)
+        form = AskForm(data=request.POST, user=request.user)
         if form.is_valid():
-            question = form.save(commit=False)
-            question.user = request.user.profile
-            question.save()
-            tags = form.cleaned_data['tags']
-            tags = re.sub(r'[.,]', ' ', tags).split()
-            for tag in tags:
-                tag_model = Tag.objects.get_tag(tag)
-                if tag_model is None:
-                    tag_model = Tag.objects.create(name = tag)
-                question.tags.add(tag_model)
+            question = form.save()
             return redirect(reverse('question', kwargs={'pk': question.pk}))
+
     ctx = {
         'form': form,
         'tags': Tag.objects.get_best(),
@@ -99,12 +90,11 @@ def question(request, pk):
     if request.method == 'GET':
         form = AnswerForm()
     else:
-        form = AnswerForm(data=request.POST)
+        form = AnswerForm(data=request.POST, user=request.user, question_pk=pk)
+        if(request.user.is_authenticated == False):
+            return redirect(f'/login/?next=/question/{pk}/')
         if form.is_valid():
-            answer = form.save(commit=False)
-            answer.user = request.user.profile
-            answer.question = Question.objects.get(pk = pk)
-            answer.save()
+            answer = form.save()
             return redirect(reverse('question', kwargs={'pk': pk}))
 
     question = Question.objects.question_by_pk(pk)

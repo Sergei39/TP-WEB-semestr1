@@ -1,6 +1,7 @@
 from django import forms
-from app.models import Question, Profile, Answer
+from app.models import Question, Profile, Answer, Tag
 from django.contrib.auth.models import User
+import re
 
 
 class LoginForm(forms.Form):
@@ -15,14 +16,46 @@ class AskForm(forms.ModelForm):
         model = Question
         fields = ['title', 'text']
 
+    def add_tags(self, question):
+        tags = self.cleaned_data['tags']
+        tags = re.sub(r'[.,]', ' ', tags).split()
+        for tag in tags:
+            tag_model = Tag.objects.get_tag(tag)
+            if tag_model is None:
+                tag_model = Tag.objects.create(name = tag)
+            question.tags.add(tag_model)
+
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         self.fields['tags'] = forms.CharField()
+
+    def save(self, commit=True):
+        question = super().save(commit=False)
+        question.user = self.user
+        if commit==True:
+            question.save()
+            self.add_tags(question)
+        return question;
+
 
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ['text']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.question_pk = kwargs.pop('question_pk', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        answer = super().save(commit=False)
+        answer.user = self.user
+        answer.question = Question.objects.get(pk = self.question_pk)
+        if commit == True:
+            answer.save()
+        return answer;
 
 
 class RegistrForm(forms.ModelForm):
