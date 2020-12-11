@@ -32,4 +32,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('tag/<str:tagname>/', views.tag, name='tag'),
     path('vote/', views.vote, name='vote'),
+    path('correct/', views.correct, name='correct'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

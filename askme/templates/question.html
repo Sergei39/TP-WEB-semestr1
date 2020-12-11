@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row box-qst">
+    <div class="row box-qst" data-id="{{ question.pk }}">
       <div class="col-2 info-person-qst">
         <img class="person-qst-img" src="{{ question.user.profile.avatar.url }}" alt="">
         <div class="d-flex justify-content-center like-info">
@@ -63,4 +63,5 @@
 
 {% block jscode %}
   <script src="{% static "js/vote.js" %}"></script>
+  <script src="{% static "js/correct-answer.js" %}"></script>
 {% endblock %}

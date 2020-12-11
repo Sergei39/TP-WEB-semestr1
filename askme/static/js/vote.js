@@ -1,6 +1,6 @@
-console.log("HERE");
+// console.log("HERE");
 
- // TODO: проверять поставил ли пользователь лайк на фронтенде 
+ // TODO: проверять поставил ли пользователь лайк на фронтенде
 
 $('.js-vote').click(function(ev) {
     if ($(this).hasClass('disabled') == true)

@@ -27,7 +27,7 @@ def index(request):
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
-        'likes': LikeQuestion.objects.likes_user(request.user)
+        # 'likes': LikeQuestion.objects.likes_user(request.user)
     })
 
 
@@ -104,14 +104,22 @@ def question(request, pk):
     question = Question.objects.question_by_pk(pk)
     this_answers = Answer.objects.get_by_question(question)
     page_obj = paginate(request, this_answers, 3)
-    return render(request, 'question.html', {
+
+    ctx = {
         'form': form,
         'question': question,
         'answers': page_obj,
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
-    })
+    }
+    is_author = False
+    if request.user.is_authenticated == True:
+        if question.user == request.user:
+            is_author = True
+
+    ctx['is_author'] = is_author
+    return render(request, 'question.html', ctx)
 
 
 @login_required
@@ -124,12 +132,6 @@ def settings(request):
             'avatar': request.user.profile.avatar,
         })
     else:
-        # form = SettingsForm(data = {
-        #     'username': request.POST.get('username'),
-        #     'email': request.POST.get('email'),
-        #     'first_name': request.POST.get('first_name'),
-        #     'avatar': request.FILES.get('avatar')
-        # })
         form = SettingsForm(
             data=request.POST, files=request.FILES,
             instance=request.user.profile)
@@ -224,7 +226,20 @@ def vote(request):
     except IntegrityError:
         return JsonResponse({ 'error': 'IntegrityError' })
 
-
-    # обработка лайка
-    # return кол-во лайков, на которое поставлено
     return JsonResponse({ 'likes': content.like() })
+
+
+@require_POST
+@login_required
+def correct(request):
+    data = request.POST
+    question = Question.objects.get(pk = data['qid'])
+    if question.user == request.user:
+        answer = Answer.objects.get(pk = data['aid'])
+        answer.is_correct = not answer.is_correct
+
+        answer.save()
+
+        return JsonResponse({ 'is_correct': answer.is_correct })
+
+    return JsonResponse({ 'error': 'not_author' })
