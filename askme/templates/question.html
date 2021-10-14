@@ -62,6 +62,17 @@
 {% endblock %}
 
 {% block jscode %}
-  <script src="{% static "js/vote.js" %}"></script>
+  <script src="{% static "js/vote.js" %}">
+  </script>
   <script src="{% static "js/correct-answer.js" %}"></script>
+  <script>
+    var token = '{{ token }}';
+    var quest_id = '{{ quest_id }}'
+
+    cent = new Centrifuge('ws://localhost:8000/connection/websocket');
+    cent.setToken(token);
+    console.log('canal: ' + 'answer-quest-' + quest_id);
+    cent.subscribe('answer-quest-' + quest_id, function(msg) { console.log(msg) });
+    cent.connect()
+  </script>
 {% endblock %}

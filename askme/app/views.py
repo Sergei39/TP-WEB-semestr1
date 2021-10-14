@@ -10,7 +10,9 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.db import IntegrityError
 
-
+# для realtime
+import jwt
+from django.conf import settings
 
 def paginate(request, object_list, per_page=10):
     paginator = Paginator(object_list, per_page)
@@ -105,6 +107,10 @@ def question(request, pk):
     this_answers = Answer.objects.get_by_question(question)
     page_obj = paginate(request, this_answers, 3)
 
+    # realtime
+    channel_id = str(pk)
+    token = jwt.encode({"sub": channel_id}, '4bc52a37-ebc9-4d64-a1dd-84dc5fc9f8a7')
+
     ctx = {
         'form': form,
         'question': question,
@@ -112,6 +118,8 @@ def question(request, pk):
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
+        'token': token,
+        'quest_id': pk,
     }
     is_author = False
     if request.user.is_authenticated == True:

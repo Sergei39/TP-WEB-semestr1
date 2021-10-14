@@ -138,3 +138,7 @@ MEDIA_URL = '/uploads/'
 LOGIN_URL = '/login/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# ключи для работы цинтрифуги, беруться из конфига центрифуги
+CENTRIFUGO_SECRET_KEY = '4bc52a37-ebc9-4d64-a1dd-84dc5fc9f8a7'
+CENTRIFUGO_API_KEY = '92d2bfc4-6e38-4338-a3ad-bffbe74daaf1'
