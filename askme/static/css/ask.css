@@ -24,7 +24,6 @@
 
 .list-group-item{
   padding: 4px 12px;
-  margin: 0 4px;
 }
 
 .page-navigation{
@@ -74,10 +73,6 @@
 
 .info-answer {
   margin-top: 16px;
-}
-
-.ques-tag {
-  margin-left: 12px;
 }
 
 .form-check {

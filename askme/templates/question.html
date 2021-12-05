@@ -27,10 +27,9 @@
           {{ question.text }}
         </div>
         <div class="tags-qst">
-          <p class="float-left">Tags: </p>
           {% for tag in question.tags.get_all %}
             <p class="float-left ques-tag">
-              <a href="{% url 'tag' tagname=tag.name %}">{{ tag.name }}</a>
+              <a href="{% url 'tag' tagname=tag.name %}" class="button-tag btn btn-outline-info">{{ tag.name }}</a>
             </p>
           {% endfor %}
         </div>

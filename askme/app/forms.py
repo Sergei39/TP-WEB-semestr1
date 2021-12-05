@@ -33,10 +33,10 @@ class AskForm(forms.ModelForm):
     def save(self, commit=True):
         question = super().save(commit=False)
         question.user = self.user
-        if commit==True:
+        if commit:
             question.save()
             self.add_tags(question)
-        return question;
+        return question
 
 
 class AnswerForm(forms.ModelForm):
@@ -53,7 +53,7 @@ class AnswerForm(forms.ModelForm):
         answer = super().save(commit=False)
         answer.user = self.user
         answer.question = Question.objects.get(pk = self.question_pk)
-        if commit == True:
+        if commit:
             answer.save()
         return answer;
 
@@ -81,7 +81,6 @@ class RegistrForm(forms.ModelForm):
             msg = "Passwords do not match"
             self.add_error('password', msg)
             self.add_error('repeat_password', msg)
-
 
 
 class SettingsForm(forms.ModelForm):

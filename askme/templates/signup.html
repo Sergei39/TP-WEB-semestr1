@@ -1,4 +1,4 @@
-{% extends 'inc/base.html' %}
+{% extends 'inc/base_not_right_block.html' %}
 
 {% load bootstrap4 %}
 {% load static %}
@@ -9,6 +9,9 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row" style="height: 70vh">
+    <div class="col-4"></div>
+    <div class="shadow p-3 mb-5 bg-white rounded col-4 my-auto">
     <div class="row">
       <div class="col-4 name-page">
         <h4>Registration</h4>
@@ -64,7 +67,7 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
-          <button type="submit" class="btn btn-primary btn-dark">Log in</button>
+          <button type="submit" class="w-100 btn btn-primary btn-dark">Log in</button>
         {% endbuttons %}
 
         <!-- <div class="row">
@@ -72,5 +75,7 @@
           <button type="submit" class="btn btn-primary mb-2 btn-dark reg-btn">Registr</button>
         </div> -->
       </form>
+    </div>
+    </div>
     </div>
 {% endblock %}

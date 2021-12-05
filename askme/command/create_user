@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker-compose exec web_1 python manage.py createsuperuser

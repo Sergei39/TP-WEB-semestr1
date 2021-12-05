@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.db import IntegrityError
+from django.apps import apps
 
 # для realtime
 import jwt
@@ -24,11 +25,12 @@ def paginate(request, object_list, per_page=10):
 def index(request):
     questions = Question.objects.last_questions()
     page_obj = paginate(request, questions)
-    return render(request,'index.html', {
+    return render(request, 'index.html', {
         'questions': page_obj,
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
+        'forum_name': apps.get_app_config('askme').forum_name,
         # 'likes': LikeQuestion.objects.likes_user(request.user)
     })
 
@@ -36,11 +38,12 @@ def index(request):
 def hot(request):
     questions = Question.objects.best_questions()
     page_obj = paginate(request, questions)
-    return render(request,'hot.html', {
-        'questions':page_obj,
+    return render(request, 'hot.html', {
+        'questions': page_obj,
         'page_obj': page_obj,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
+        'forum_name': apps.get_app_config('askme').forum_name,
     })
 
 
@@ -57,7 +60,8 @@ def ask(request):
     ctx = {
         'form': form,
         'tags': Tag.objects.get_best(),
-        'members': Profile.objects.get_best()
+        'members': Profile.objects.get_best(),
+        'forum_name': apps.get_app_config('askme').forum_name,
     }
     return render(request, 'ask.html', ctx)
 
@@ -82,6 +86,7 @@ def login(request):
         'members': Profile.objects.get_best(),
         'continue': request.GET.get('next', '/'),
         'error': error,
+        'forum_name': apps.get_app_config('askme').forum_name,
     }
     return render(request, 'login.html', ctx)
 
@@ -120,6 +125,7 @@ def question(request, pk):
         'members': Profile.objects.get_best(),
         'token': token,
         'quest_id': pk,
+        'forum_name': apps.get_app_config('askme').forum_name,
     }
     is_author = False
     if request.user.is_authenticated == True:
@@ -138,6 +144,7 @@ def settings(request):
             'email': request.user.email,
             'first_name': request.user.first_name,
             'avatar': request.user.profile.avatar,
+            'forum_name': apps.get_app_config('askme').forum_name,
         })
     else:
         form = SettingsForm(
@@ -168,6 +175,7 @@ def settings(request):
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
         'continue': request.GET.get('next', '/'),
+        'forum_name': apps.get_app_config('askme').forum_name,
     }
     return render(request, 'settings.html', ctx)
 
@@ -194,6 +202,7 @@ def signup(request):
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
         'continue': request.GET.get('next', '/'),
+        'forum_name': apps.get_app_config('askme').forum_name,
     }
     return render(request, 'signup.html', ctx)
 
@@ -207,6 +216,7 @@ def tag(request, tagname):
         'tagname': tagname,
         'tags': Tag.objects.get_best(),
         'members': Profile.objects.get_best(),
+        'forum_name': apps.get_app_config('askme').forum_name,
     })
 
 
@@ -241,9 +251,9 @@ def vote(request):
 @login_required
 def correct(request):
     data = request.POST
-    question = Question.objects.get(pk = data['qid'])
+    question = Question.objects.get(pk=data['qid'])
     if question.user == request.user:
-        answer = Answer.objects.get(pk = data['aid'])
+        answer = Answer.objects.get(pk=data['aid'])
         answer.is_correct = not answer.is_correct
 
         answer.save()

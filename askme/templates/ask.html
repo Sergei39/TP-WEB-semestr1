@@ -1,4 +1,4 @@
-{% extends 'inc/base.html' %}
+{% extends 'inc/base_not_right_block.html' %}
 
 {% load bootstrap4 %}
 {% load static %}
@@ -9,7 +9,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="name-page">
+    <div class="shadow" style="padding: 16px">
+    <div class="name-page text-center">
       <h4>New Question</h4>
     </div>
     <form class="body-page" action="/ask/" method="post" novalidate>
@@ -43,4 +44,5 @@
       </div> -->
 
     </form>
+    </div>
 {% endblock %}

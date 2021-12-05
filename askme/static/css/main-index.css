@@ -26,11 +26,6 @@ code {
   max-width: 100px;
 }
 
-.content-qst{
-  padding-left: 36px;
-  padding-right: 36px;
-}
-
 .title-qst {
   font-size: 20px;
   font-weight: bold;
@@ -41,13 +36,8 @@ code {
   margin-top: 16px;
 }
 
-.ques-tag{
-  margin-left: 12px;
-}
-
 .list-group-item{
   padding: 4px 12px;
-  margin: 0 4px;
 }
 
 .page-navigation{

@@ -1,20 +1,21 @@
 {% extends 'inc/base.html' %}
 {% load static %}
 
-{% block title %}AskPupkin{% endblock %}
+{% block title %}{{ forum_name }}{% endblock %}
 {% block extrahead %}
     <link href="{% static 'css/main-index.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
     <div class="row">
-      <div class="col-4 question-new">
-        <h4>New Questions</h4>
+      <div class="list-group list-group-horizontal col-6" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action list-group-item-secondary" href="" role="tab">New Questions</a>
+        <a class="list-group-item list-group-item-action" href="{% url 'hot' %}" role="tab">Hot Questions</a>
       </div>
-      <div class="col question-hot">
-        <a href="{% url 'hot' %}" class="text-dark">Hot Questions</a>
-      </div>
-
+      <div class="col-4"></div>
+      <a class="btn btn-primary col-2" href="{% url 'ask' %}">Ask</a>
+    </div>
+    <div>
       {% for question in questions %}
         {% include 'inc/question_box.html' %}
       {% endfor %}

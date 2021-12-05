@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
-
 # modelMeneger - класс в котором пишется логика проекта
+
+
 class QuestionManager(models.Manager):
     def last_questions(self):
         return self.order_by('-data_create')
@@ -26,8 +26,8 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     avatar = models.ImageField(upload_to='avatar/%Y/%m/%d/',
-                                default = 'avatar.jpeg',
-                                blank = True,
+                                default='avatar.jpeg',
+                                blank=True,
                                 verbose_name='Аватарка')
 
     objects = ProfileManager()
@@ -83,7 +83,7 @@ class Question(models.Model):
 
 class AnswerManager(models.Manager):
     def get_by_question(self, question_obj):
-        return self.filter(question = question_obj.pk)
+        return self.filter(question=question_obj.pk)
 
 
 class Answer(models.Model):
@@ -112,8 +112,10 @@ class Answer(models.Model):
 class TagManager(models.Manager):
     def get_best(self):
         return self.all()[:10]
+
     def get_all(self):
         return self.all()
+
     def get_tag(self, tag):
         tag = self.all().filter(name = tag)
         if tag.count() == 0:
@@ -138,8 +140,7 @@ class Tag(models.Model):
 
 class LikeManager(models.Manager):
     def likes_user(self, user):
-        self.filter(user = user)
-
+        self.filter(user=user)
 
 
 class LikeQuestion(models.Model):

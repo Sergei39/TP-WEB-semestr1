@@ -1,21 +1,26 @@
-<div class="info-box">
-  <div class="info-title">
-    <h4>Popular Tags</h4>
-  </div>
-  <div class="tags-container">
+<div class="info-box right-container">
+  <ul class="list-group list-group-flush">
+  <li class="info-title list-group-item list-group-item-secondary">
+    Popular Tags
+  </li>
+  <li class="tags-container list-group-item">
     {% for tag in tags %}
-      <a href="{% url 'tag' tagname=tag.name %}" class="tag text-dark">{{ tag.name }}</a>
+      <a href="{% url 'tag' tagname=tag.name %}" class="tag text-dark button-tag btn btn-outline-info">{{ tag.name }}</a>
     {% endfor %}
-  </div>
+  </li>
+  </ul>
 </div>
 
-<div class="members-box">
-  <div class="members-title">
-    <h4>Best Members</h4>
-  </div>
-  <ul class="">
+<div class="members-box right-container">
+  <ul class="list-group list-group-flush">
+    <li class="members-title list-group-item list-group-item-secondary">
+      Best Members
+    </li>
     {% for member in members %}
-      <li><a href="#">{{ member.user.get_full_name }}</a></li>
+      <li class="list-group-item my-auto d-flex flex-row">
+        <span class="p-2 my-auto member-image d-inline-block" style="background-image: url('{{ member.user.profile.avatar.url }}')"></span>
+        <p class="p-2 px-md-3 flex-fill my-auto">{{ member.user.get_full_name }}</p>
+      </li>
     {% endfor %}
   </ul>
 </div>

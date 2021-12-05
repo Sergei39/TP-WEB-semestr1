@@ -76,7 +76,7 @@ class Command(BaseCommand):
 
             profile = Profile()
             profile.user = user
-            num_ava = f.random_int(min=1, max=17)
+            num_ava = f.random_int(min=21, max=25)
             profile.avatar = f'../static/test_image/test{num_ava}.jpg'
             profile.save()
 
